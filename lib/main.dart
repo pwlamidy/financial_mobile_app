@@ -1,4 +1,9 @@
-import 'package:financial_mobile_app/router/app_router.dart';
+import 'package:financial_mobile_app/screens/dashboard.dart';
+import 'package:financial_mobile_app/screens/instrument_details.dart';
+import 'package:financial_mobile_app/screens/instrument_search.dart';
+import 'package:financial_mobile_app/screens/login.dart';
+import 'package:financial_mobile_app/screens/portfolio.dart';
+import 'package:financial_mobile_app/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,12 +15,20 @@ class FinanceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       title: 'Finance App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      routerConfig: AppRouter().router,
+      home: Login(),
+      routes: {
+        '/login': (context) => const Login(),
+        '/signup': (context) => const SignUp(),
+        '/dashboard': (context) => const Dashboard(),
+        '/portfolio': (context) => const Portfolio(),
+        '/details': (context) => const InstrumentDetails(),
+        '/search': (context) => const InstrumentSearch(),
+      },
     );
   }
 }

@@ -51,7 +51,9 @@ class _AccessCodeState extends State<AccessCode> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 15),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, "/dashboard");
+                },
                 child: const Text("Submit"),
               ),
             ),
