@@ -52,7 +52,7 @@ class _LoginState extends State<Login> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const AccessCode()));
+                        MaterialPageRoute(builder: (_) => const AccessCode(title: "Login",)));
                   },
                   child: const Text('Submit'),
                 ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AccessCode extends StatefulWidget {
-  const AccessCode({Key? key}) : super(key: key);
+  const AccessCode({Key? key, required this.title}) : super(key: key);
+
+  final String title;
 
   @override
   State<AccessCode> createState() => _AccessCodeState();
@@ -17,13 +19,13 @@ class _AccessCodeState extends State<AccessCode> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 60.0),
               child: Center(
                 child: SizedBox(
                   height: 150,
                   child: Text(
-                    "Login",
+                    widget.title,
                     style: TextStyle(fontSize: 25),
                   ),
                 ),
