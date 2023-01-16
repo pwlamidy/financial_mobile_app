@@ -1,4 +1,3 @@
-import 'package:financial_mobile_app/widgets/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -18,10 +17,6 @@ class _DashboardState extends State<Dashboard> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text("Financial Mobile App"),
-        ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -50,7 +45,6 @@ class _DashboardState extends State<Dashboard> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavBar(),
       ),
     );
   }

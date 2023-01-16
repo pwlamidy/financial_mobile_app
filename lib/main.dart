@@ -1,3 +1,4 @@
+import 'package:financial_mobile_app/blocs/nav/navigation_cubit.dart';
 import 'package:financial_mobile_app/screens/dashboard.dart';
 import 'package:financial_mobile_app/screens/instrument_details.dart';
 import 'package:financial_mobile_app/screens/instrument_search.dart';
@@ -5,6 +6,7 @@ import 'package:financial_mobile_app/screens/login.dart';
 import 'package:financial_mobile_app/screens/portfolio.dart';
 import 'package:financial_mobile_app/screens/sign_up.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const FinanceApp());
@@ -15,20 +17,23 @@ class FinanceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Finance App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Login(),
-      routes: {
-        '/login': (context) => const Login(),
-        '/signup': (context) => const SignUp(),
-        '/dashboard': (context) => const Dashboard(),
-        '/portfolio': (context) => const Portfolio(),
-        '/details': (context) => const InstrumentDetails(),
-        '/search': (context) => const InstrumentSearch(),
-      },
+    return BlocProvider<NavigationCubit>(
+      create: (context) => NavigationCubit(),
+      child: MaterialApp(
+        title: 'Finance App',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Login(),
+        routes: {
+          '/login': (context) => const Login(),
+          '/signup': (context) => const SignUp(),
+          '/dashboard': (context) => const Dashboard(),
+          '/portfolio': (context) => const Portfolio(),
+          '/details': (context) => const InstrumentDetails(),
+          '/search': (context) => const InstrumentSearch(),
+        },
+      )
     );
   }
 }

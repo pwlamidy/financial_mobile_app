@@ -1,3 +1,4 @@
+import 'package:financial_mobile_app/screens/root_screen.dart';
 import 'package:flutter/material.dart';
 
 class AccessCode extends StatefulWidget {
@@ -52,7 +53,8 @@ class _AccessCodeState extends State<AccessCode> {
               padding: EdgeInsets.symmetric(vertical: 15),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, "/dashboard");
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const RootScreen()));
                 },
                 child: const Text("Submit"),
               ),
