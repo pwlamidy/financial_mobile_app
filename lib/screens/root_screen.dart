@@ -4,6 +4,7 @@ import 'package:financial_mobile_app/screens/portfolio.dart';
 import 'package:financial_mobile_app/utils/nav_bar_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({Key? key}) : super(key: key);
@@ -13,12 +14,28 @@ class RootScreen extends StatefulWidget {
 }
 
 class _RootScreenState extends State<RootScreen> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text("Financial Mobile App"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              _prefs.then((SharedPreferences prefs) {
+                prefs.remove("uid");
+              });
+              Navigator.pushReplacementNamed(context, "/login");
+            },
+          )
+        ],
       ),
       body: BlocBuilder<NavigationCubit, NavigationState>(
           builder: (context, state) {

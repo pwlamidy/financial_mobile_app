@@ -52,7 +52,7 @@ class _SignUpState extends State<SignUp> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const AccessCode(title: "Sign Up",)));
+                        MaterialPageRoute(builder: (_) => const AccessCode(title: "Sign Up", phoneNumber: "+852 12345678",)));
                   },
                   child: const Text('Submit'),
                 ),

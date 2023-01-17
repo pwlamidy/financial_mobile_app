@@ -5,10 +5,19 @@ import 'package:financial_mobile_app/screens/instrument_search.dart';
 import 'package:financial_mobile_app/screens/login.dart';
 import 'package:financial_mobile_app/screens/portfolio.dart';
 import 'package:financial_mobile_app/screens/sign_up.dart';
+import 'package:financial_mobile_app/screens/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const FinanceApp());
 }
 
@@ -24,7 +33,7 @@ class FinanceApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Login(),
+        home: SplashScreen(),
         routes: {
           '/login': (context) => const Login(),
           '/signup': (context) => const SignUp(),
