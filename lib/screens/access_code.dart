@@ -1,7 +1,6 @@
 import 'package:financial_mobile_app/screens/root_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AccessCode extends StatefulWidget {
   const AccessCode({Key? key, required this.title, required this.phoneNumber})
@@ -15,7 +14,6 @@ class AccessCode extends StatefulWidget {
 }
 
 class _AccessCodeState extends State<AccessCode> {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final smsCodeController = TextEditingController();
 
   Future registerUser(String smsCode, BuildContext context) async {
@@ -27,11 +25,6 @@ class _AccessCodeState extends State<AccessCode> {
         auth
             .signInWithCredential(credential)
             .then((UserCredential userCredential) {
-          _prefs.then((SharedPreferences prefs) {
-            prefs
-                .setString("uid", userCredential.user!.uid)
-                .then((bool success) => success);
-          });
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => RootScreen()));
         }).catchError((e) {
@@ -48,11 +41,6 @@ class _AccessCodeState extends State<AccessCode> {
         );
 
         auth.signInWithCredential(credential).then((userCredential) {
-          _prefs.then((SharedPreferences prefs) {
-            prefs
-                .setString("uid", userCredential.user!.uid)
-                .then((bool success) => success);
-          });
           Navigator.pushReplacement(
               context, MaterialPageRoute(builder: (context) => RootScreen()));
         }).catchError((e) {

@@ -2,9 +2,9 @@ import 'package:financial_mobile_app/blocs/nav/navigation_cubit.dart';
 import 'package:financial_mobile_app/screens/dashboard.dart';
 import 'package:financial_mobile_app/screens/portfolio.dart';
 import 'package:financial_mobile_app/utils/nav_bar_items.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class RootScreen extends StatefulWidget {
 }
 
 class _RootScreenState extends State<RootScreen> {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +29,7 @@ class _RootScreenState extends State<RootScreen> {
               color: Colors.white,
             ),
             onPressed: () {
-              _prefs.then((SharedPreferences prefs) {
-                prefs.remove("uid");
-              });
+              auth.signOut();
               Navigator.pushReplacementNamed(context, "/login");
             },
           )
