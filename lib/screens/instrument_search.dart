@@ -3,6 +3,7 @@ import 'package:financial_mobile_app/models/hits_page.dart';
 import 'package:financial_mobile_app/models/search_metadata.dart';
 import 'package:financial_mobile_app/models/stock.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class InstrumentSearch extends StatefulWidget {
@@ -61,17 +62,24 @@ class _InstrumentSearchState extends State<InstrumentSearch> {
                 color: Colors.white,
                 height: 80,
                 padding: const EdgeInsets.all(8),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 20,
+                child: InkWell(
+                  onTap: () {
+                    context.push("/details");
+                  },
+                  child: Ink(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(item.name),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(item.ticker, style: TextStyle(color: Colors.grey)),
+                      ],
                     ),
-                    Text(item.name),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text(item.ticker, style: TextStyle(color: Colors.grey)),
-                  ],
+                  ),
                 ),
               );
             } else {

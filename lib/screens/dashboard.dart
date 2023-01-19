@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class _DashboardState extends State<Dashboard> {
                     IconButton(
                       padding: EdgeInsets.only(right: 20.0),
                       onPressed: () {
-                        Navigator.pushNamed(context, "/search");
+                        context.push("/search");
                       },
                       icon: Icon(
                         Icons.search,

@@ -5,6 +5,7 @@ import 'package:financial_mobile_app/utils/nav_bar_items.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _RootScreenState extends State<RootScreen> {
             ),
             onPressed: () {
               auth.signOut();
-              Navigator.pushReplacementNamed(context, "/login");
+              context.go("/login");
             },
           )
         ],

@@ -10,6 +10,10 @@ class InstrumentDetails extends StatefulWidget {
 class _InstrumentDetailsState extends State<InstrumentDetails> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Financial Mobile App"),
+      ),
+    );
   }
 }

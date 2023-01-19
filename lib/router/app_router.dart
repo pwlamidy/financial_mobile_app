@@ -5,6 +5,7 @@ import 'package:financial_mobile_app/screens/instrument_details.dart';
 import 'package:financial_mobile_app/screens/login.dart';
 import 'package:financial_mobile_app/screens/portfolio.dart';
 import 'package:financial_mobile_app/screens/sign_up.dart';
+import 'package:financial_mobile_app/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,7 +15,7 @@ class AppRouter {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const Login(),
+        builder: (context, state) => const SplashScreen(),
       ),
       GoRoute(
         path: '/login',

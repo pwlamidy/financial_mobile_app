@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key, this.selectedIndex = 0}) : super(key: key);
@@ -27,9 +28,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
       selectedItemColor: Colors.amber[800],
       onTap: (currIndex) {
         if (currIndex == 0) {
-          Navigator.pushNamed(context, "/dashboard");
+          context.go("/dashboard");
         } else if (currIndex == 1) {
-          Navigator.pushNamed(context, "/portfolio");
+          context.go("/portfolio");
         }
       },
     );
