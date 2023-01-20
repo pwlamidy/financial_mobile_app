@@ -34,8 +34,8 @@ class AppRouter {
         builder: (context, state) => const Portfolio(),
       ),
       GoRoute(
-        path: '/details',
-        builder: (context, state) => const InstrumentDetails(),
+        path: '/details/:ticker',
+        builder: (context, state) => InstrumentDetails(ticker: state.params["ticker"],),
       ),
       GoRoute(
         path: '/search',

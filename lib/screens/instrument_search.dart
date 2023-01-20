@@ -64,7 +64,7 @@ class _InstrumentSearchState extends State<InstrumentSearch> {
                 padding: const EdgeInsets.all(8),
                 child: InkWell(
                   onTap: () {
-                    context.push("/details");
+                    context.push("/details/${item.ticker}");
                   },
                   child: Ink(
                     child: Row(

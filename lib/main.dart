@@ -3,6 +3,7 @@ import 'package:financial_mobile_app/router/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'firebase_options.dart';
 
@@ -18,19 +19,19 @@ Future<void> main() async {
 class FinanceApp extends StatelessWidget {
   const FinanceApp({super.key});
 
+  static final GoRouter router = AppRouter().router;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<NavigationCubit>(
-      create: (context) => NavigationCubit(),
-      child: MaterialApp.router(
-        title: 'Finance App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        // home: SplashScreen(),
-        routerConfig: AppRouter().router,
-      )
-    );
+        create: (context) => NavigationCubit(),
+        child: MaterialApp.router(
+          title: 'Finance App',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          routerConfig: router,
+        ));
   }
 }
 
