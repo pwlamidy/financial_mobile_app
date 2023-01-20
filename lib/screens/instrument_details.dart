@@ -5,6 +5,7 @@ import 'package:financial_mobile_app/models/news.dart';
 import 'package:financial_mobile_app/models/stock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InstrumentDetails extends StatefulWidget {
   const InstrumentDetails({Key? key, this.ticker}) : super(key: key);
@@ -17,9 +18,9 @@ class InstrumentDetails extends StatefulWidget {
 
 class _InstrumentDetailsState extends State<InstrumentDetails> {
   CollectionReference stocksCollection =
-  FirebaseFirestore.instance.collection("stocks");
+      FirebaseFirestore.instance.collection("stocks");
   CollectionReference newsCollection =
-  FirebaseFirestore.instance.collection("news");
+      FirebaseFirestore.instance.collection("news");
 
   final StockCubit _stockCubit = StockCubit();
   final NewsCubit _newsCubit = NewsCubit();
@@ -48,6 +49,15 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
     });
   }
 
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
+
   Widget stockNameWidget(BuildContext context) {
     return BlocBuilder<StockCubit, StockState>(builder: (context, state) {
       return Text(
@@ -57,7 +67,6 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
     });
   }
 
-
   Widget newsWidget(BuildContext context) {
     return BlocBuilder<NewsCubit, NewsState>(
       builder: (context, state) {
@@ -65,19 +74,24 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
           return Column(
             children: state.news!
                 .map(
-                  (n) =>
-                  Padding(
+                  (n) => Padding(
                     padding: EdgeInsets.only(left: 10.0, right: 10.0),
                     child: Card(
-                      child: Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Expanded(
-                          child: Text(n.title),
+                      child: InkWell(
+                        onTap: () {
+                          final Uri toLaunch = Uri.parse(n.url);
+                          _launchInBrowser(toLaunch);
+                        },
+                        child: Ink(
+                          padding: EdgeInsets.all(10.0),
+                          child: Expanded(
+                            child: Text(n.title),
+                          ),
                         ),
                       ),
                     ),
                   ),
-            )
+                )
                 .toList(),
           );
         }
