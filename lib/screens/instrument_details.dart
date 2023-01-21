@@ -4,10 +4,13 @@ import 'package:financial_mobile_app/blocs/stock/stock_cubit.dart';
 import 'package:financial_mobile_app/models/news.dart';
 import 'package:financial_mobile_app/models/stock.dart';
 import 'package:financial_mobile_app/widgets/stock_price_chart.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'dart:developer' as developer;
 
 class InstrumentDetails extends StatefulWidget {
   const InstrumentDetails({Key? key, this.ticker}) : super(key: key);
@@ -23,9 +26,13 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
       FirebaseFirestore.instance.collection("stocks");
   CollectionReference newsCollection =
       FirebaseFirestore.instance.collection("news");
+  CollectionReference watchListsCollection =
+      FirebaseFirestore.instance.collection("watchlists");
 
   final StockCubit _stockCubit = StockCubit();
   final NewsCubit _newsCubit = NewsCubit();
+
+  bool addedToWatchlist = false;
 
   @override
   void initState() {
@@ -54,6 +61,21 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
         .then((newsData) {
       List feed = newsData.docs.first["feed"];
       _newsCubit.getNews(feed.map((f) => News.fromJson(f)).toList());
+    });
+
+    watchListsCollection
+        .where("uid",
+            isEqualTo: FirebaseAuth.instance.currentUser?.uid.toString())
+        .get()
+        .then((watchListsRef) {
+      if (watchListsRef.docs.isNotEmpty) {
+        List<dynamic> userWatchList = watchListsRef.docs.first.get("list");
+        if (userWatchList.contains("${widget.ticker}")) {
+          setState(() {
+            addedToWatchlist = true;
+          });
+        }
+      }
     });
   }
 
@@ -133,11 +155,59 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
                     Spacer(),
                     IconButton(
                       padding: EdgeInsets.only(right: 20.0),
-                      onPressed: () {},
+                      onPressed: () async {
+                        final watchListsRef = await watchListsCollection
+                            .where("uid",
+                                isEqualTo: FirebaseAuth
+                                    .instance.currentUser?.uid
+                                    .toString())
+                            .get();
+
+                        if (watchListsRef.docs.isEmpty) {
+                          await watchListsCollection.add({
+                            "uid": FirebaseAuth.instance.currentUser?.uid
+                                .toString(),
+                            "list": ["${widget.ticker}"]
+                          });
+                          setState(() {
+                            addedToWatchlist = true;
+                          });
+                        } else {
+                          List<dynamic> currentWatchList =
+                              watchListsRef.docs.first.get("list");
+                          if (widget.ticker != null) {
+                            if (!currentWatchList
+                                .contains("${widget.ticker}")) {
+                              currentWatchList.add("${widget.ticker}");
+                              setState(() {
+                                addedToWatchlist = true;
+                              });
+                            } else {
+                              currentWatchList.remove("${widget.ticker}");
+                              setState(() {
+                                addedToWatchlist = false;
+                              });
+                            }
+                          }
+                          final userWatchListRef =
+                              watchListsRef.docs.first.reference;
+                          userWatchListRef
+                              .update({"list": currentWatchList}).then((value) {
+                            developer
+                                .log("DocumentSnapshot successfully updated!");
+                            setState(() {
+                              watchListsCollection = FirebaseFirestore.instance
+                                  .collection("watchlists");
+                            });
+                          }).onError((error, stackTrace) {
+                            developer.log("Error updating document $error");
+                          });
+                        }
+                      },
                       icon: Icon(
                         Icons.star,
                         size: 40,
-                        color: Colors.grey,
+                        color: addedToWatchlist ? Colors.yellow : Colors.grey,
                       ),
                     ),
                     BlocBuilder<StockCubit, StockState>(
