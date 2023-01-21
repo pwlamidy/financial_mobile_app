@@ -3,6 +3,7 @@ import 'package:financial_mobile_app/blocs/news/news_cubit.dart';
 import 'package:financial_mobile_app/blocs/stock/stock_cubit.dart';
 import 'package:financial_mobile_app/models/news.dart';
 import 'package:financial_mobile_app/models/stock.dart';
+import 'package:financial_mobile_app/widgets/stock_price_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,7 +36,13 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
         .then((stockData) {
       final name = stockData.docs.first.get("name");
       final ticker = stockData.docs.first.get("ticker");
-      final prices = stockData.docs.first.get("Time_Series_(5min)");
+      Map<String, dynamic> prices =
+          stockData.docs.first.get("Time_Series_(5min)");
+
+      // Sort prices by increasing timestamp
+      prices = Map.fromEntries(
+          prices.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
+
       Stock s = Stock(name, ticker, prices);
       _stockCubit.getStock(s);
     });
@@ -154,6 +161,22 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
                   ],
                 ),
               ),
+              BlocBuilder<StockCubit, StockState>(
+                builder: (context, state) {
+                  return Padding(
+                    padding: EdgeInsets.only(left: 20.0, bottom: 20.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          "${state.stock?.prices.entries.first.key.split(" ").first}, 5m interval",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              StockPriceChart(),
               newsWidget(context),
             ],
           ),

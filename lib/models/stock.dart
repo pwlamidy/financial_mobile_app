@@ -1,7 +1,7 @@
 class Stock {
   final String name;
   final String ticker;
-  final dynamic prices;
+  final Map<String, dynamic> prices;
 
   Stock(this.name, this.ticker, this.prices);
 
