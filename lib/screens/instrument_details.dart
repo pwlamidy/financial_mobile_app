@@ -247,6 +247,28 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
               ),
               BlocBuilder<StockCubit, StockState>(
                 builder: (context, state) {
+                  double latestPrice = 0;
+                  if (state.stock?.prices != null &&
+                      state.stock!.prices.isNotEmpty) {
+                    latestPrice =
+                        double.parse(state.stock!.prices.values.last["close"]);
+                  }
+
+                  return Padding(
+                    padding: EdgeInsets.only(left: 20.0, bottom: 20.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          "$latestPrice",
+                          style: TextStyle(fontSize: 30.0,),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              BlocBuilder<StockCubit, StockState>(
+                builder: (context, state) {
                   return Padding(
                     padding: EdgeInsets.only(left: 20.0, bottom: 20.0),
                     child: Row(
