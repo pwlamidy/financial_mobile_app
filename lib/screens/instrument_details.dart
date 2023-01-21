@@ -84,9 +84,7 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
                         },
                         child: Ink(
                           padding: EdgeInsets.all(10.0),
-                          child: Expanded(
-                            child: Text(n.title),
-                          ),
+                          child: Text(n.title),
                         ),
                       ),
                     ),
