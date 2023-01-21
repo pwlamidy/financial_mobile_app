@@ -6,6 +6,7 @@ import 'package:financial_mobile_app/models/stock.dart';
 import 'package:financial_mobile_app/widgets/stock_price_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InstrumentDetails extends StatefulWidget {
@@ -139,13 +140,26 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
                         color: Colors.grey,
                       ),
                     ),
-                    IconButton(
-                      padding: EdgeInsets.only(right: 20.0),
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.share,
-                        size: 40,
-                      ),
+                    BlocBuilder<StockCubit, StockState>(
+                      builder: (context, state) {
+                        double latestPrice = 0;
+                        if (state.stock?.prices != null &&
+                            state.stock!.prices.isNotEmpty) {
+                          latestPrice = double.parse(
+                              state.stock!.prices.values.last["close"]);
+                        }
+
+                        return IconButton(
+                          padding: EdgeInsets.only(right: 20.0),
+                          onPressed: () {
+                            Share.share('${widget.ticker} \$$latestPrice');
+                          },
+                          icon: Icon(
+                            Icons.share,
+                            size: 40,
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
