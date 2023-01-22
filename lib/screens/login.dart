@@ -9,6 +9,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
   final _mobileController = TextEditingController();
 
   Future<bool> _onWillPop() async {
@@ -30,57 +31,70 @@ class _LoginState extends State<Login> {
           automaticallyImplyLeading: false,
           title: const Text("Financial Mobile App"),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(top: 60.0),
-                child: Center(
-                  child: SizedBox(
-                    height: 150,
-                    child: Text(
-                      "Login",
-                      style: TextStyle(fontSize: 25),
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.only(top: 60.0),
+                  child: Center(
+                    child: SizedBox(
+                      height: 150,
+                      child: Text(
+                        "Login",
+                        style: TextStyle(fontSize: 25),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: TextField(
-                  controller: _mobileController,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Mobile No.',
-                      hintText: 'Enter valid mobile no.'),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: TextFormField(
+                    controller: _mobileController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Mobile No.',
+                        hintText: 'Enter valid mobile no.'),
+                    validator: (text) {
+                      if (text == null || text.isEmpty) {
+                        return 'Please enter valid mobile no.';
+                      }
+                      return null;
+                    },
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => AccessCode(
-                                  title: "Login",
-                                  phoneNumber: "+852 ${_mobileController.text}",
-                                )));
-                  },
-                  child: const Text('Submit'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        // on success, notify the parent widget
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => AccessCode(
+                                      title: "Login",
+                                      phoneNumber:
+                                          "+852 ${_mobileController.text}",
+                                    )));
+                      }
+                    },
+                    child: const Text('Submit'),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 130,
-              ),
-              // TextButton(
-              //   onPressed: () {
-              //     Navigator.push(context,
-              //         MaterialPageRoute(builder: (_) => const SignUp()));
-              //   },
-              //   child: const Text("Don't have an account?"),
-              // )
-            ],
+                const SizedBox(
+                  height: 130,
+                ),
+                // TextButton(
+                //   onPressed: () {
+                //     Navigator.push(context,
+                //         MaterialPageRoute(builder: (_) => const SignUp()));
+                //   },
+                //   child: const Text("Don't have an account?"),
+                // )
+              ],
+            ),
           ),
         ),
       ),
