@@ -10,8 +10,16 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final _mobileController = TextEditingController();
+
   Future<bool> _onWillPop() async {
     return false;
+  }
+
+  @override
+  void dispose() {
+    _mobileController.dispose();
+    super.dispose();
   }
 
   @override
@@ -51,8 +59,13 @@ class _SignUpState extends State<SignUp> {
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const AccessCode(title: "Sign Up", phoneNumber: "+852 12345678",)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => AccessCode(
+                                  title: "Sign Up",
+                                  phoneNumber: "+852 ${_mobileController.text}",
+                                )));
                   },
                   child: const Text('Submit'),
                 ),

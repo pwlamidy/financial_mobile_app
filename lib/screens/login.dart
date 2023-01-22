@@ -1,5 +1,4 @@
 import 'package:financial_mobile_app/screens/access_code.dart';
-import 'package:financial_mobile_app/screens/sign_up.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -10,8 +9,16 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _mobileController = TextEditingController();
+
   Future<bool> _onWillPop() async {
     return false;
+  }
+
+  @override
+  void dispose() {
+    _mobileController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,9 +45,10 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
+                  controller: _mobileController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Mobile No.',
@@ -51,8 +59,13 @@ class _LoginState extends State<Login> {
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const AccessCode(title: "Login", phoneNumber: "+852 12345678",)));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => AccessCode(
+                                  title: "Login",
+                                  phoneNumber: "+852 ${_mobileController.text}",
+                                )));
                   },
                   child: const Text('Submit'),
                 ),
@@ -60,13 +73,13 @@ class _LoginState extends State<Login> {
               const SizedBox(
                 height: 130,
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const SignUp()));
-                },
-                child: const Text("Don't have an account?"),
-              )
+              // TextButton(
+              //   onPressed: () {
+              //     Navigator.push(context,
+              //         MaterialPageRoute(builder: (_) => const SignUp()));
+              //   },
+              //   child: const Text("Don't have an account?"),
+              // )
             ],
           ),
         ),

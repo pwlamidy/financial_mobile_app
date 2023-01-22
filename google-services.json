@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "592039241307",
+    "project_id": "fir-mobile-app-daec6",
+    "storage_bucket": "fir-mobile-app-daec6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:592039241307:android:2e81726d4b0cf3d668017e",
+        "android_client_info": {
+          "package_name": "com.deepbluestudio.financial_mobile_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "592039241307-vb20er5ansdiu3vqe00qc5b64n5mfdpm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deepbluestudio.financial_mobile_app",
+            "certificate_hash": "f30c97f48ff703a3071504d837f2deb068e76180"
+          }
+        },
+        {
+          "client_id": "592039241307-87u1bp8bvnvi8gclvsohta4s8aracl1t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6QNGV4n0v_KW-GBtEUEfsjOxGFsbtlj8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "592039241307-87u1bp8bvnvi8gclvsohta4s8aracl1t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "592039241307-r3g7og3fg2e7dqgb23q47ghb30dej5dh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.deepbluestudio.financialMobileApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
