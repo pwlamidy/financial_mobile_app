@@ -154,8 +154,13 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
                     stockNameWidget(context),
                     Spacer(),
                     IconButton(
+                      key: Key("addToWishlistButtonKey"),
                       padding: EdgeInsets.only(right: 20.0),
                       onPressed: () async {
+                        setState(() {
+                          addedToWatchlist = !addedToWatchlist;
+                        });
+
                         final watchListsRef = await watchListsCollection
                             .where("uid",
                                 isEqualTo: FirebaseAuth
@@ -169,9 +174,6 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
                                 .toString(),
                             "list": ["${widget.ticker}"]
                           });
-                          setState(() {
-                            addedToWatchlist = true;
-                          });
                         } else {
                           List<dynamic> currentWatchList =
                               watchListsRef.docs.first.get("list");
@@ -179,14 +181,8 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
                             if (!currentWatchList
                                 .contains("${widget.ticker}")) {
                               currentWatchList.add("${widget.ticker}");
-                              setState(() {
-                                addedToWatchlist = true;
-                              });
                             } else {
                               currentWatchList.remove("${widget.ticker}");
-                              setState(() {
-                                addedToWatchlist = false;
-                              });
                             }
                           }
                           final userWatchListRef =
@@ -205,6 +201,7 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
                         }
                       },
                       icon: Icon(
+                        key: Key("addToWishlistIconKey"),
                         Icons.star,
                         size: 40,
                         color: addedToWatchlist ? Colors.yellow : Colors.grey,
