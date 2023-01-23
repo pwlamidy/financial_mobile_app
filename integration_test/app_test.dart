@@ -7,9 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:mockito/mockito.dart';
-
-class MockUserCredential extends Mock implements UserCredential {}
 
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -66,12 +63,15 @@ void main() async {
         ),
       ));
 
+      await tester.pumpAndSettle();
+
       expect(find.text('TSLA'), findsOneWidget);
     });
   });
 
   group('search test', () {
-    testWidgets('show search screen and result', (tester) async {
+    testWidgets('show search screen, input keyword and show search result',
+        (tester) async {
       await tester.pumpWidget(MaterialApp(
         home: InstrumentSearch(),
       ));
@@ -109,7 +109,8 @@ void main() async {
       await tester.pumpAndSettle();
 
       // Get updated "add to wishlist" button
-      icon = tester.firstWidget(find.byKey(Key("addToWishlistIconKey"))) as Icon;
+      icon =
+          tester.firstWidget(find.byKey(Key("addToWishlistIconKey"))) as Icon;
 
       expect(
         icon,

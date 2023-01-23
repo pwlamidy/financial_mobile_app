@@ -187,17 +187,18 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
                           }
                           final userWatchListRef =
                               watchListsRef.docs.first.reference;
-                          userWatchListRef
-                              .update({"list": currentWatchList}).then((value) {
-                            developer
-                                .log("DocumentSnapshot successfully updated!");
+
+                          try {
+                            await userWatchListRef
+                                .update({"list": currentWatchList});
+                            developer.log("Wishlist successfully updated!");
                             setState(() {
                               watchListsCollection = FirebaseFirestore.instance
                                   .collection("watchlists");
                             });
-                          }).onError((error, stackTrace) {
-                            developer.log("Error updating document $error");
-                          });
+                          } catch (error) {
+                            developer.log("Error updating wishlist $error");
+                          }
                         }
                       },
                       icon: Icon(
@@ -257,7 +258,9 @@ class _InstrumentDetailsState extends State<InstrumentDetails> {
                       children: [
                         Text(
                           "$latestPrice",
-                          style: TextStyle(fontSize: 30.0,),
+                          style: TextStyle(
+                            fontSize: 30.0,
+                          ),
                         ),
                       ],
                     ),
